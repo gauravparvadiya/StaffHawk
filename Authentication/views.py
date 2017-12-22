@@ -1,6 +1,5 @@
 from django.shortcuts import render, HttpResponseRedirect, redirect
 from .models import User
-from django.urls import reverse
 
 
 def index(request):

@@ -19,4 +19,6 @@ from django.conf.urls import url
 app_name = 'administrator'
 urlpatterns = [
     url(r'^$', views.index, name='index'),
+    url(r'^administrator/add_freelance_account/$', views.redirect_to_add_freelance_account, name='redirect_to_add_freelance_account'),
+    url(r'^administrator/upwork_account/$', views.upwork_account, name='upwork_account'),
 ]
