@@ -20,5 +20,6 @@ from django.contrib import admin
 urlpatterns = [
     url(r'admin/', admin.site.urls),
     url(r'^', include('Authentication.urls')),
-    url(r'^administrator/dashboard/', include('administrator.urls', namespace='administrator')),
+    url(r'^administrator/', include('administrator.urls', namespace='administrator')),
+    url(r'^bde/', include('bde.urls', namespace='bde')),
 ]
