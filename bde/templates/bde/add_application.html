@@ -1,0 +1,128 @@
+{% extends "bde/header.html" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-info">
+                <div class="panel-wrapper collapse in" aria-expanded="true">
+                    <div class="panel-body">
+                        <form action="#" class="form-horizontal">
+                            <div class="form-body">
+                                <h3 class="box-title">Application Info</h3>
+                                <hr class="m-t-0 m-b-40">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Project Title</label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control"
+                                                       placeholder="Looking for developer"> <span
+                                                    class="help-block"> Add project title same as job posting. </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Project URL</label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control"
+                                                       placeholder="http://www.upwork.com/"> <span
+                                                    class="help-block"> </span></div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                </div>
+                                <!--/row-->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Project Size</label>
+                                            <div class="col-md-9">
+                                                <select class="form-control">
+                                                    {% for project_size in project_sizes %}
+                                                        <option value="{{ project_size.id }}">{{ project_size.size }}</option>
+                                                    {% endfor %}
+
+                                                </select> <span class="help-block"> </span></div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Freelance Account</label>
+                                            <div class="col-md-9">
+                                                <select class="form-control">
+                                                    {% for freelance_account in freelance_accounts %}
+                                                        <option value="{{ freelance_account.id }}">{{ freelance_account.name_on_account }}</option>
+                                                    {% endfor %}
+
+                                                </select> <span class="help-block"> </span></div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                </div>
+                                <!--/row-->
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Invited by Client</label>
+                                            <div class="col-md-9">
+                                                <div class="radio-list">
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="optionsRadios2" value="1"> Yes
+                                                    </label>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="optionsRadios2" value="0"
+                                                               checked=""> No </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Client Location</label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control"
+                                                       placeholder="Montral, QC, Canada"></div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Text area</label>
+                                            <div class="col-md-9">
+                                                <textarea class="form-control" rows="15"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                </div>
+
+
+                            </div>
+                            <div class="form-actions">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-offset-3 col-md-9">
+                                                <button type="submit" class="btn btn-success">Submit</button>
+                                                <button type="button" class="btn btn-default">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6"></div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
