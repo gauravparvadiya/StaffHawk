@@ -1,9 +1,18 @@
-from django.shortcuts import render, HttpResponseRedirect, redirect
+from django.shortcuts import render, redirect
 from .models import User
 
 
 def index(request):
-    return render(request, "Authentication/login.html")
+    if request.session.has_key('username'):
+        one_entry = User.objects.get(user_email=request.session['username'])
+        # print(one_entry.user_email)
+        if one_entry.user_role == '1':
+            return redirect('/administrator/dashboard')
+        elif one_entry.user_role == '2':
+            return redirect('/bde/dashboard')
+        return redirect('/administrator/dashboard')
+    else:
+        return render(request, "Authentication/login.html")
 
 
 def login(request):
@@ -16,8 +25,11 @@ def login(request):
         password = request.POST['password']
         try:
             one_entry = User.objects.get(user_email=username,user_password=password)
-            print('User found')
-            return redirect('/administrator/dashboard')
+            request.session['username'] = username
+            if one_entry.user_role == '1':
+                return redirect('/administrator/dashboard')
+            elif one_entry.user_role == '2':
+                return redirect('/bde/dashboard')
         except User.DoesNotExist:
             print("No user found.")
             return render(request, "Authentication/login.html", context={"error": 'Wrong username or password.'})
