@@ -80,7 +80,7 @@
                     </li>
 
                     <li class="dropdown">
-                        <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"> <img src="{% static 'plugins/images/users/varun.jpg' %}" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">Gaurav Parvadiya</b> </a>
+                        <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"> <img src="{% static 'plugins/images/users/varun.jpg' %}" alt="user-img" width="36" class="img-circle"><b class="hidden-xs"></b> </a>
                         <ul class="dropdown-menu dropdown-user animated flipInY">
                             <li><a href="#"><i class="ti-user"></i> My Profile</a></li>
                             <li><a href="#"><i class="ti-wallet"></i> My Balance</a></li>
@@ -88,7 +88,7 @@
                             <li role="separator" class="divider"></li>
                             <li><a href="#"><i class="ti-settings"></i> Account Setting</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="#"><i class="fa fa-power-off"></i> Logout</a></li>
+                            <li><a href="/logout/"><i class="fa fa-power-off"></i> Logout</a></li>
                         </ul>
                         <!-- /.dropdown-user -->
                     </li>
@@ -114,15 +114,15 @@
                         <!-- /input-group -->
                     </li>
 
-                    <li> <a href="index.html" class="waves-effect active"><i class="linea-icon linea-basic fa-fw" data-icon="v"></i> <span class="hide-menu"> Dashboard <span class="fa arrow"></span> </span></a>
+                    <li> <a href="/administrator/dashboard" class="waves-effect active"><i class="linea-icon linea-basic fa-fw" data-icon="v"></i> <span class="hide-menu"> Dashboard <span class="fa arrow"></span> </span></a>
 
                     </li>
                     <li> <a href="javascript:void(0);" class="waves-effect"><i class="linea-icon linea-basic fa-fw text-danger" data-icon="7"></i> <span class="hide-menu text-danger"> Users <span class="fa arrow"></span> </span></a>
                         <ul class="nav nav-second-level">
-                            <li> <a href="#">Admin</a> </li>
-                            <li> <a href="#">BDE</a> </li>
-                            <li> <a href="#">Team Leader</a> </li>
-                            <li> <a href="#">Employee</a> </li>
+                            <li> <a href="/administrator/admin_account/">Admin</a> </li>
+                            <li> <a href="/administrator/bde_account/">BDE</a> </li>
+                            <li> <a href="/administrator/tl_account/">Team Leader</a> </li>
+                            <li> <a href="/administrator/employee_account/">Employee</a> </li>
                         </ul>
                     </li>
                     <li><a href="inbox.html" class="waves-effect"><i data-icon=")" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Freelance Accounts <span class="fa arrow"></span></span></a>

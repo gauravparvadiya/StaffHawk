@@ -18,8 +18,13 @@ from django.conf.urls import url
 
 app_name = 'administrator'
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
-    url(r'^administrator/add_freelance_account/$', views.redirect_to_add_freelance_account, name='redirect_to_add_freelance_account'),
-    url(r'^administrator/upwork_account/$', views.upwork_account, name='upwork_account'),
-    url(r'^administrator/guru_account/$', views.guru_account, name='guru_account'),
+    url(r'^dashboard/$', views.index, name='index'),
+    url(r'^logout/$', views.logout, name='logout'),
+    url(r'^add_freelance_account/$', views.redirect_to_add_freelance_account, name='redirect_to_add_freelance_account'),
+    url(r'^upwork_account/$', views.upwork_account, name='upwork_account'),
+    url(r'^guru_account/$', views.guru_account, name='guru_account'),
+    url(r'^admin_account/$', views.admin_account, name='admin_account'),
+    url(r'^bde_account/$', views.bde_account, name='bde_account'),
+    url(r'^tl_account/$', views.tl_account, name='tl_account'),
+    url(r'^employee_account/$', views.employee_account, name='employee_account'),
 ]
