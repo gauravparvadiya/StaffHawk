@@ -20,5 +20,8 @@ app_name = 'bde'
 urlpatterns = [
     url(r'^dashboard/$', views.index, name='index'),
     url(r'^add_application/$', views.add_application, name='add_application'),
+    url(r'^add_application_form_submission/$', views.add_application_form_submission, name='add_application_form_submission'),
+    url(r'^applied_jobs/$', views.applied_jobs, name='applied_jobs'),
+    url(r'^lead_generated_jobs/$', views.lead_generated_jobs, name='lead_generated_jobs'),
     # url(r'^administrator/employee_account/$', views.employee_account, name='employee_account'),
 ]

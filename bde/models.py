@@ -1,5 +1,5 @@
 from django.db import models
-
+from datetime import datetime, timedelta
 
 class ProjectSize(models.Model):
     size = models.CharField(max_length=10)
@@ -19,6 +19,7 @@ class Contract(models.Model):
     lead_generated = models.CharField(max_length=5, default='0')
     sales_converted = models.CharField(max_length=5, default='0')
     freelance_account = models.ForeignKey('administrator.FreelanceAccount', on_delete=models.CASCADE)
+    bidder_account = models.ForeignKey('Authentication.User', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -28,8 +29,9 @@ class Contract(models.Model):
 
 class LeadGeneratedContract(models.Model):
     lead_contract = models.ForeignKey(Contract, on_delete=models.CASCADE)
-    follow_up_time = models.DateTimeField()
-    lede_bde = models.ForeignKey('Authentication.User', on_delete=models.CASCADE)
+    bidder_account = models.ForeignKey('Authentication.User', on_delete=models.CASCADE)
+    follow_up_time = models.DateTimeField(default=datetime.now()+timedelta(days=2))
+    follow_up_counter = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

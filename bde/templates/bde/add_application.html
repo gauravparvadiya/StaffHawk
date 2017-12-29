@@ -6,7 +6,8 @@
             <div class="panel panel-info">
                 <div class="panel-wrapper collapse in" aria-expanded="true">
                     <div class="panel-body">
-                        <form action="#" class="form-horizontal">
+                        <form action="/bde/add_application_form_submission/" class="form-horizontal" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
                             <div class="form-body">
                                 <h3 class="box-title">Application Info</h3>
                                 <hr class="m-t-0 m-b-40">
@@ -16,7 +17,7 @@
                                             <label class="control-label col-md-3">Project Title</label>
                                             <div class="col-md-9">
                                                 <input type="text" class="form-control"
-                                                       placeholder="Looking for developer"> <span
+                                                       placeholder="Looking for developer" name="project_title"> <span
                                                     class="help-block"> Add project title same as job posting. </span>
                                             </div>
                                         </div>
@@ -27,7 +28,7 @@
                                             <label class="control-label col-md-3">Project URL</label>
                                             <div class="col-md-9">
                                                 <input type="text" class="form-control"
-                                                       placeholder="http://www.upwork.com/"> <span
+                                                       placeholder="http://www.upwork.com/" name="project_url"> <span
                                                     class="help-block"> </span></div>
                                         </div>
                                     </div>
@@ -39,7 +40,7 @@
                                         <div class="form-group">
                                             <label class="control-label col-md-3">Project Size</label>
                                             <div class="col-md-9">
-                                                <select class="form-control">
+                                                <select class="form-control" name="project_size">
                                                     {% for project_size in project_sizes %}
                                                         <option value="{{ project_size.id }}">{{ project_size.size }}</option>
                                                     {% endfor %}
@@ -52,7 +53,7 @@
                                         <div class="form-group">
                                             <label class="control-label col-md-3">Freelance Account</label>
                                             <div class="col-md-9">
-                                                <select class="form-control">
+                                                <select class="form-control" name="freelance_account">
                                                     {% for freelance_account in freelance_accounts %}
                                                         <option value="{{ freelance_account.id }}">{{ freelance_account.name_on_account }}</option>
                                                     {% endfor %}
@@ -71,10 +72,10 @@
                                             <div class="col-md-9">
                                                 <div class="radio-list">
                                                     <label class="radio-inline">
-                                                        <input type="radio" name="optionsRadios2" value="1"> Yes
+                                                        <input type="radio" name="invited_by_client" value="1"> Yes
                                                     </label>
                                                     <label class="radio-inline">
-                                                        <input type="radio" name="optionsRadios2" value="0"
+                                                        <input type="radio" name="invited_by_client" value="0"
                                                                checked=""> No </label>
                                                 </div>
                                             </div>
@@ -85,7 +86,7 @@
                                             <label class="control-label col-md-3">Client Location</label>
                                             <div class="col-md-9">
                                                 <input type="text" class="form-control"
-                                                       placeholder="Montral, QC, Canada"></div>
+                                                       placeholder="Montral, QC, Canada" name="client_location"></div>
                                         </div>
                                     </div>
                                     <!--/span-->
@@ -96,10 +97,20 @@
                                         <div class="form-group">
                                             <label class="control-label col-md-3">Text area</label>
                                             <div class="col-md-9">
-                                                <textarea class="form-control" rows="15"></textarea>
+                                                <textarea class="form-control" rows="15" name="project_description"></textarea>
                                             </div>
                                         </div>
                                     </div>
+                                    <!--/span-->
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-sm-6 ol-md-6 col-xs-12 ">
+                                        <div class="form-group white-box">
+                                            <label for="input-file-now" class="control-label col-md-3">Attachment</label>
+                                            <input type="file" id="input-file-now" class="col-md-9" name="attachment"/></div>
+                                    </div>
+
                                     <!--/span-->
                                 </div>
 
