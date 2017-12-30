@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import datetime, timedelta
 
+
 class ProjectSize(models.Model):
     size = models.CharField(max_length=10)
 
@@ -18,6 +19,9 @@ class Contract(models.Model):
     invited_by_client = models.CharField(max_length=5)
     lead_generated = models.CharField(max_length=5, default='0')
     sales_converted = models.CharField(max_length=5, default='0')
+    contract_type = models.CharField(max_length=3, default='1')
+    contract_price = models.CharField(
+        max_length=10)  # Hour rate in case of Hourly contract otherwise fixed price.
     freelance_account = models.ForeignKey('administrator.FreelanceAccount', on_delete=models.CASCADE)
     bidder_account = models.ForeignKey('Authentication.User', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -30,7 +34,7 @@ class Contract(models.Model):
 class LeadGeneratedContract(models.Model):
     lead_contract = models.ForeignKey(Contract, on_delete=models.CASCADE)
     bidder_account = models.ForeignKey('Authentication.User', on_delete=models.CASCADE)
-    follow_up_time = models.DateTimeField(default=datetime.now()+timedelta(days=2))
+    follow_up_time = models.DateTimeField(default=datetime.now() + timedelta(days=2))
     follow_up_counter = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -41,8 +45,11 @@ class LeadGeneratedContract(models.Model):
 
 class SalesContract(models.Model):
     sales_contract = models.ForeignKey(Contract, on_delete=models.CASCADE)
-    sales_bde = models.ForeignKey('Authentication.User',on_delete=models.CASCADE)
+    sales_bde = models.ForeignKey('Authentication.User', on_delete=models.CASCADE)
     freelance_account = models.ForeignKey('administrator.FreelanceAccount', on_delete=models.CASCADE)
+    contract_payment_type = models.CharField(max_length=3)  # 1.Hourly 2.Fixed
+    contract_total_amount = models.CharField(
+        max_length=10)  # Hour rate in case of Hourly contract otherwise fixed price.
     technology_id = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
