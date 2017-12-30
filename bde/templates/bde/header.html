@@ -18,15 +18,20 @@
     <link href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css' %}"
           rel="stylesheet">
+    <link href="{% static 'plugins/bower_components/bootstrap-switch/bootstrap-switch.min.css' %}" rel="stylesheet">
+    <!-- Footable CSS -->
+    <link href="{% static 'plugins/bower_components/footable/css/footable.core.css' %}" rel="stylesheet">
     <link href="{% static 'plugins/bower_components/bootstrap-select/bootstrap-select.min.css' %}" rel="stylesheet"/>
     <!-- Menu CSS -->
     <link href="{% static 'plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css' %}" rel="stylesheet">
     <!-- toast CSS -->
+    <link href="{% static 'plugins/bower_components/sweetalert/sweetalert.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'plugins/bower_components/custom-select/custom-select.css' %}" rel="stylesheet"
           type="text/css"/>
-
+    <link href="{% static 'plugins/bower_components/bootstrap-select/bootstrap-select.min.css' %}" rel="stylesheet"/>
+    <link href="{% static 'plugins/bower_components/multiselect/css/multi-select.css' %}" rel="stylesheet"
+          type="text/css"/>
     <link href="{% static 'plugins/bower_components/toast-master/css/jquery.toast.css' %}" rel="stylesheet">
-    <link href="{% static 'plugins/bower_components/bootstrap-switch/bootstrap-switch.min.css' %}" rel="stylesheet">
     <!-- morris CSS -->
     <link href="{% static 'plugins/bower_components/morrisjs/morris.css' %}" rel="stylesheet">
     <!-- animation CSS -->
@@ -182,24 +187,24 @@
 <script type="text/javascript">
 
     $(".bt-switch input[type='checkbox'], .bt-switch input[type='radio']").bootstrapSwitch();
-    var radioswitch = function () {
-        var bt = function () {
-            $(".radio-switch").on("switch-change", function () {
-                $(".radio-switch").bootstrapSwitch("toggleRadioState")
-            }),
+        var radioswitch = function () {
+            var bt = function () {
                 $(".radio-switch").on("switch-change", function () {
-                    $(".radio-switch").bootstrapSwitch("toggleRadioStateAllowUncheck")
+                    $(".radio-switch").bootstrapSwitch("toggleRadioState")
                 }),
-                $(".radio-switch").on("switch-change", function () {
-                    $(".radio-switch").bootstrapSwitch("toggleRadioStateAllowUncheck", !1)
-                })
-        };
-        return {
-            init: function () {
-                bt()
+                    $(".radio-switch").on("switch-change", function () {
+                        $(".radio-switch").bootstrapSwitch("toggleRadioStateAllowUncheck")
+                    }),
+                    $(".radio-switch").on("switch-change", function () {
+                        $(".radio-switch").bootstrapSwitch("toggleRadioStateAllowUncheck", !1)
+                    })
+            };
+            return {
+                init: function () {
+                    bt()
+                }
             }
-        }
-    }();
+        }();
 
     $(document).ready(function () {
         // For select 2
