@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import FreelanceAccount
 from Authentication.models import User
 
@@ -67,4 +67,4 @@ def logout(request):
         del request.session['username']
     except:
         pass
-    return render(request, "Authentication/login.html")
+    return redirect("/")
