@@ -3,7 +3,7 @@
 {% block content %}
 
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-12 bt-switch">
             <div class="white-box">
                 <h3 class="box-title m-b-0">Applied Jobs</h3>
 
@@ -23,29 +23,45 @@
                         <th>Mark as Lead Generated</th>
                         <th data-hide="all"> URL</th>
                         <th data-hide="all"> Size</th>
-                        <th data-hide="all"> Client Location</th>
+                        <th data-hide="all"> Type</th>
+                        <th data-hide="all"> Price</th>
+                        <th data-hide="all"> Location</th>
                         <th data-hide="all"> Description</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for job_list in jobs_lists %}
-                    <tr>
-                        <td>{{ job_list.project_title }}</td>
-                        <td>{{ job_list.freelance_account }}</td>
-                        {% if job_list.lead_generated == '1' and job_list.sales_converted == '0' %}
-                            <td><span class="label label-info">Lead Generated</span></td>
-                        {% elif job_list.lead_generated == '1' and job_list.sales_converted == '1'%}
-                            <td><span class="label label-success">Sales Generated</span></td>
-                        {% elif job_list.lead_generated == '0' and job_list.sales_converted == '0'%}
-                            <td><span class="label label-danger">Waiting for Response</span></td>
-                        {% endif %}
+                        <tr>
+                            <td>{{ job_list.project_title }}</td>
+                            <td>{{ job_list.freelance_account }}</td>
+                            {% if job_list.lead_generated == '1' and job_list.sales_converted == '0' %}
+                                <td><span class="label label-info">Lead Generated</span></td>
+                                <td><input type="checkbox" checked data-on-color="success" data-off-color="info"
+                                           data-on-text="Yes" data-off-text="No" id="mark_as_lead"
+                                           name="{{ job_list.id }}" class="appliedJobs"></td>
+                            {% elif job_list.lead_generated == '1' and job_list.sales_converted == '1' %}
+                                <td><span class="label label-success">Sales Generated</span></td>
+                                <td></td>
+                            {% elif job_list.lead_generated == '0' and job_list.sales_converted == '0' %}
+                                <td><span class="label label-danger">Waiting for Response</span></td>
+                                <td><input type="checkbox" data-on-color="success" data-off-color="info"
+                                           data-on-text="Yes" data-off-text="No" id="mark_as_lead"
+                                           name="{{ job_list.id }}" class="appliedJobs"></td>
+                            {% endif %}
+                            <td><a href="{{ job_list.project_url }}" target="_blank">{{ job_list.project_url }}</a></td>
+                            <td>{{ job_list.project_size }}</td>
+                            {% if job_list.contract_type == '1' %}
+                                <td>Hourly</td>
+                                <td>USD {{ job_list.contract_price }}/hr</td>
+                            {% else %}
+                                <td>Fixed Price</td>
+                                <td>USD {{ job_list.contract_price }}</td>
+                            {% endif %}
 
-                        <td><input type="checkbox" checked data-on-color="success" data-off-color="info" data-on-text="Yes" data-off-text="No"></td>
-                        <td><a href="{{ job_list.project_url }}" target="_blank">{{ job_list.project_url }}</a></td>
-                        <td>{{ job_list.project_size }}</td>
-                        <td>{{ job_list.client_location }}</td>
-                        <td>{{ job_list.project_desc }}</td>
-                    </tr>
+
+                            <td>{{ job_list.client_location }}</td>
+                            <td>{{ job_list.project_desc }}</td>
+                        </tr>
                     {% endfor %}
                     </tbody>
                     <tfoot>

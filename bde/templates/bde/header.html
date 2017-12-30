@@ -18,14 +18,15 @@
     <link href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css' %}"
           rel="stylesheet">
-    <link href="{% static 'plugins/bower_components/bootstrap-switch/bootstrap-switch.min.css' %}" rel="stylesheet">
-    <!-- Footable CSS -->
-    <link href="{% static 'plugins/bower_components/footable/css/footable.core.css' %}" rel="stylesheet">
     <link href="{% static 'plugins/bower_components/bootstrap-select/bootstrap-select.min.css' %}" rel="stylesheet"/>
     <!-- Menu CSS -->
     <link href="{% static 'plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css' %}" rel="stylesheet">
     <!-- toast CSS -->
+    <link href="{% static 'plugins/bower_components/custom-select/custom-select.css' %}" rel="stylesheet"
+          type="text/css"/>
+
     <link href="{% static 'plugins/bower_components/toast-master/css/jquery.toast.css' %}" rel="stylesheet">
+    <link href="{% static 'plugins/bower_components/bootstrap-switch/bootstrap-switch.min.css' %}" rel="stylesheet">
     <!-- morris CSS -->
     <link href="{% static 'plugins/bower_components/morrisjs/morris.css' %}" rel="stylesheet">
     <!-- animation CSS -->
@@ -39,10 +40,12 @@
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
+    <![endif]-->
+
 </head>
 
 <body>
+
 <!-- Preloader -->
 <div class="preloader">
     <div class="cssload-speeding-wheel"></div>
@@ -58,53 +61,15 @@
             <ul class="nav navbar-top-links navbar-left hidden-xs">
                 <li><a href="javascript:void(0)" class="open-close hidden-xs waves-effect waves-light"><i
                         class="icon-arrow-left-circle ti-menu"></i></a></li>
-                <li>
-                    <form role="search" class="app-search hidden-xs">
-                        <input type="text" placeholder="Search..." class="form-control"> <a href=""><i
-                            class="fa fa-search"></i></a></form>
-                </li>
+
             </ul>
             <ul class="nav navbar-top-links navbar-right pull-right">
-                <li class="dropdown"><a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown"
-                                        href="#"><i class="icon-envelope"></i>
-                    <div class="notify"><span class="heartbit"></span><span class="point"></span></div>
-                </a>
-                    <ul class="dropdown-menu mailbox animated bounceInDown">
-                        <li>
-                            <div class="drop-title">You have 4 new messages</div>
-                        </li>
-                        <li>
-                            <div class="message-center">
-                                <a href="#">
-                                    <div class="user-img"><img src="{% static 'plugins/images/users/pawandeep.jpg' %}"
-                                                               alt="user" class="img-circle"> <span
-                                            class="profile-status online pull-right"></span></div>
-                                    <div class="mail-contnet">
-                                        <h5>Pavan kumar</h5> <span class="mail-desc">Just see the my admin!</span> <span
-                                            class="time">9:30 AM</span></div>
-                                </a>
 
-                            </div>
-                        </li>
-                        <li>
-                            <a class="text-center" href="javascript:void(0);"> <strong>See all notifications</strong> <i
-                                    class="fa fa-angle-right"></i> </a>
-                        </li>
-                    </ul>
-                    <!-- /.dropdown-messages -->
-                </li>
 
                 <li class="dropdown">
-                    <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"> <img
-                            src="{% static 'plugins/images/users/varun.jpg' %}" alt="user-img" width="36"
-                            class="img-circle"><b class="hidden-xs"></b> </a>
+                    <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"> <b
+                            class="hidden-xs">{{ request.session.name }}</b> </a>
                     <ul class="dropdown-menu dropdown-user animated flipInY">
-                        <li><a href="#"><i class="ti-user"></i> My Profile</a></li>
-                        <li><a href="#"><i class="ti-wallet"></i> My Balance</a></li>
-                        <li><a href="#"><i class="ti-email"></i> Inbox</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#"><i class="ti-settings"></i> Account Setting</a></li>
-                        <li role="separator" class="divider"></li>
                         <li><a href="/logout/"><i class="fa fa-power-off"></i> Logout</a></li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -143,7 +108,7 @@
                         <li><a href="/bde/add_application/">Add Application</a></li>
                         <li><a href="/bde/applied_jobs">Applied Jobs</a></li>
                         <li><a href="/bde/lead_generated_jobs">Lead</a></li>
-                        <li><a href="#">Sales</a></li>
+                        <li><a href="/bde/sales_generated_jobs">Sales</a></li>
                     </ul>
                 </li>
 
@@ -165,6 +130,8 @@
 </div>
 <!-- /#wrapper -->
 <!-- jQuery -->
+
+
 <script src="{% static 'plugins/bower_components/jquery/dist/jquery.min.js' %}"></script>
 <!-- Bootstrap Core JavaScript -->
 <script src="{% static 'bootstrap/dist/js/tether.min.js' %}"></script>
@@ -201,7 +168,19 @@
 
 <!-- bt-switch -->
 <script src="{% static 'plugins/bower_components/bootstrap-switch/bootstrap-switch.min.js' %}"></script>
+<script src="{% static 'plugins/bower_components/custom-select/custom-select.min.js' %}"
+        type="text/javascript"></script>
+<script src="{% static 'plugins/bower_components/bootstrap-select/bootstrap-select.min.js' %}"
+        type="text/javascript"></script>
+<!-- Sweet-Alert  -->
+<script src="{% static 'plugins/bower_components/sweetalert/sweetalert.min.js' %}"></script>
+<script src="{% static 'plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js' %}"></script>
+<!--Style Switcher -->
+
+<script type="text/javascript"
+        src="{% static 'plugins/bower_components/multiselect/js/jquery.multi-select.js' %}"></script>
 <script type="text/javascript">
+
     $(".bt-switch input[type='checkbox'], .bt-switch input[type='radio']").bootstrapSwitch();
     var radioswitch = function () {
         var bt = function () {
@@ -221,11 +200,78 @@
             }
         }
     }();
+
     $(document).ready(function () {
-        radioswitch.init()
+        // For select 2
+        $(".select2").select2();
+        $('.selectpicker').selectpicker();
+
+        // For multiselect
+        $('#pre-selected-options').multiSelect();
+        $('#optgroup').multiSelect({
+            selectableOptgroup: true
+        });
+        $('#public-methods').multiSelect();
+        $('#select-all').click(function () {
+            $('#public-methods').multiSelect('select_all');
+            return false;
+        });
+        $('#deselect-all').click(function () {
+            $('#public-methods').multiSelect('deselect_all');
+            return false;
+        });
+        $('#refresh').on('click', function () {
+            $('#public-methods').multiSelect('refresh');
+            return false;
+        });
+        $('#add-option').on('click', function () {
+            $('#public-methods').multiSelect('addOption', {
+                value: 42,
+                text: 'test 42',
+                index: 0
+            });
+            return false;
+        });
+
+        $(".appliedJobs").change(
+            function () {
+                if ($(this).is(':checked')) {
+                    $.ajax({
+                        url: '/bde/set_lead_generated/',
+                        type: 'POST',
+                        data: {
+                            check: $(this).attr('name'), csrfmiddlewaretoken: '{{ csrf_token }}'
+                        },
+                        success: function () {
+                            //$('#wrapper').html(data);
+                            alert('Marked as lead generated');
+                        }
+                    });
+                }
+                else {
+                    $.ajax({
+                        url: '/bde/remove_lead_generated/',
+                        type: 'POST',
+                        data: {
+                            check: $(this).attr('name'), csrfmiddlewaretoken: '{{ csrf_token }}'
+                        },
+                        success: function () {
+                            alert('Removed from lead generated');
+                        }
+                    });
+                }
+            });
+
+        $(".leadJobs").change(
+            function () {
+                if ($(this).is(':checked')) {
+                    window.location.replace("/bde/add_sales_info/?id=" + $(this).attr('name'));
+                }
+            });
+
+        radioswitch.init();
     });
 </script>
-<!--Style Switcher -->
 <script src="{% static 'plugins/bower_components/styleswitcher/jQuery.style.switcher.js' %}"></script>
 </body>
 
