@@ -23,5 +23,10 @@ urlpatterns = [
     url(r'^add_application_form_submission/$', views.add_application_form_submission, name='add_application_form_submission'),
     url(r'^applied_jobs/$', views.applied_jobs, name='applied_jobs'),
     url(r'^lead_generated_jobs/$', views.lead_generated_jobs, name='lead_generated_jobs'),
-    # url(r'^administrator/employee_account/$', views.employee_account, name='employee_account'),
+    url(r'^set_lead_generated/$', views.set_lead_generated, name='set_lead_generated'),
+    url(r'^remove_lead_generated/$', views.remove_lead_generated, name='remove_lead_generated'),
+    url(r'^set_sales_generated/$', views.set_sales_generated, name='set_sales_generated'),
+    url(r'^sales_generated_jobs/$', views.sales_generated_jobs, name='sales_generated_jobs'),
+    url(r'^add_sales_info/$', views.add_sales_info, name='add_sales_info'),
+
 ]
