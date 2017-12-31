@@ -33,3 +33,13 @@ class Technology(models.Model):
 
     def __str__(self):
         return self.technology_name
+
+
+class TodayQuote(models.Model):
+    quote_text = models.TextField()
+    quote_author = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.quote_text
