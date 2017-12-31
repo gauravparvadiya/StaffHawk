@@ -1,0 +1,79 @@
+{% extends "administrator/header.html" %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="white-box">
+                <h3 class="box-title m-b-0">Applied Jobs</h3>
+
+                <label class="form-inline">Show
+                    <select id="demo-show-entries" class="form-control input-sm">
+                        <option value="5">5</option>
+                        <option value="10" selected>10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                    </select> Jobs </label>
+                <table id="demo-foo-pagination" class="table m-b-0 toggle-arrow-tiny" data-page-size="10">
+                    <thead>
+                    <tr>
+                        <th data-toggle="true"> Project Title</th>
+                        <th> Freelance Account</th>
+                        <th>Status</th>
+                        <th>BDE</th>
+                        <th data-hide="all"> URL</th>
+                        <th data-hide="all"> Size</th>
+                        <th data-hide="all"> Type</th>
+                        <th data-hide="all"> Price</th>
+                        <th data-hide="all"> Location</th>
+                        <th data-hide="all"> Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for job_list in jobs_lists %}
+                        <tr>
+                            <td>{{ job_list.project_title }}</td>
+                            <td>{{ job_list.freelance_account }}</td>
+                            {% if job_list.lead_generated == '1' and job_list.sales_converted == '0' %}
+                                <td><span class="label label-info">Lead Generated</span></td>
+
+                            {% elif job_list.lead_generated == '1' and job_list.sales_converted == '1' %}
+                                <td><span class="label label-success">Sales Generated</span></td>
+
+                            {% elif job_list.lead_generated == '0' and job_list.sales_converted == '0' %}
+                                <td><span class="label label-danger">Waiting for Response</span></td>
+
+                            {% endif %}
+                            <td>{{ job_list.bidder_account }}</td>
+                            <td><a href="{{ job_list.project_url }}" target="_blank">{{ job_list.project_url }}</a></td>
+                            <td>{{ job_list.project_size }}</td>
+                            {% if job_list.contract_type == '1' %}
+                                <td>Hourly</td>
+                                <td>USD {{ job_list.contract_price }}/hr</td>
+                            {% else %}
+                                <td>Fixed Price</td>
+                                <td>USD {{ job_list.contract_price }}</td>
+                            {% endif %}
+
+
+                            <td>{{ job_list.client_location }}</td>
+                            <td>{{ job_list.project_desc }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="5">
+                            <div class="text-right">
+                                <ul class="pagination pagination-split m-t-30"></ul>
+                            </div>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
