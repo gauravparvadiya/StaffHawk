@@ -27,4 +27,5 @@ urlpatterns = [
     url(r'^bde_account/$', views.bde_account, name='bde_account'),
     url(r'^tl_account/$', views.tl_account, name='tl_account'),
     url(r'^employee_account/$', views.employee_account, name='employee_account'),
+    url(r'^applied_jobs/$', views.applied_jobs, name='applied_jobs'),
 ]

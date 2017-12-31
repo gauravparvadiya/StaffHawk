@@ -13,8 +13,6 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'plugins/images/favicon.png' %}">
     <title>StaffHawk | Admin</title>
     <!-- Bootstrap Core CSS -->
-
-
     <link href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css' %}"
           rel="stylesheet">
@@ -30,6 +28,10 @@
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
     <!-- color CSS -->
     <link href="{% static 'css/colors/blue.css' %}" id="theme" rel="stylesheet">
+
+    <!-- Footable CSS -->
+    <link href="{% static 'plugins/bower_components/footable/css/footable.core.css' %}" rel="stylesheet">
+    <link href="{% static 'plugins/bower_components/bootstrap-select/bootstrap-select.min.css' %}" rel="stylesheet"/>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -110,6 +112,15 @@
                         <li><a href="/administrator/guru_account/">Guru</a></li>
                     </ul>
                 </li>
+                <li><a href="inbox.html" class="waves-effect"><i data-icon=")" class="linea-icon linea-basic fa-fw"></i>
+                    <span class="hide-menu">Applied Jobs <span class="fa arrow"></span></span></a>
+                    <ul class="nav nav-second-level ">
+                        <li><a href="/administrator/applied_jobs">All</a></li>
+                        <li><a href="#">Lead Genrated</a></li>
+                        <li><a href="#">Sales Generated</a></li>
+
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
@@ -153,6 +164,13 @@
 <script src="{% static 'plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js' %}"></script>
 <script src="{% static 'plugins/bower_components/jquery-sparkline/jquery.charts-sparkline.js' %}"></script>
 <script src="{% static 'plugins/bower_components/toast-master/js/jquery.toast.js' %}"></script>
+
+<!-- Footable -->
+<script src=" {% static 'plugins/bower_components/footable/js/footable.all.min.js' %}"></script>
+<script src="{% static 'plugins/bower_components/bootstrap-select/bootstrap-select.min.js' %}"
+        type="text/javascript"></script>
+<!--FooTable init-->
+<script src="{% static 'js/footable-init.js' %}"></script>
 
 <!--Style Switcher -->
 <script src="{% static 'plugins/bower_components/styleswitcher/jQuery.style.switcher.js' %}"></script>
