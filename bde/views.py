@@ -5,10 +5,24 @@ from Authentication.models import User
 from django.core.files.storage import FileSystemStorage
 import os
 from datetime import datetime
+from administrator.models import TodayQuote
+
 
 def index(request):
     if request.session.has_key('username'):
-        return render(request, "bde/dashboard.html")
+        today_quote = TodayQuote.objects.filter().order_by('-id')[0]
+
+        bde_user = User.objects.get(user_email=request.session['username'])
+        all_counter = Contract.objects.filter(bidder_account_id=bde_user.id).count()
+        lead_counter = Contract.objects.filter(bidder_account_id=bde_user.id, lead_generated='1', invited_by_client='0').count()
+        sales_counter = Contract.objects.filter(bidder_account_id=bde_user.id, lead_generated='1',
+                                                sales_converted='1').count()
+        invitation_count = Contract.objects.filter(bidder_account_id=bde_user.id, invited_by_client='1').count()
+        print(today_quote)
+        # record = reversed(today_quote)[0]
+        return render(request, "bde/dashboard.html",
+                      {'today_quote': today_quote, 'all_count': all_counter, 'lead_count': lead_counter,
+                       'sales_count': sales_counter, 'invite_count': invitation_count})
     else:
         return redirect("/")
 
@@ -34,7 +48,8 @@ def add_application_form_submission(request):
                 ext = ext.lower()
                 print(ext)
                 date = datetime.now()
-                result = '%s%s%s%s%s%s_%s' % (date.year, date.month, date.day, date.hour, date.minute, date.second, os.urandom(10).hex())
+                result = '%s%s%s%s%s%s_%s' % (
+                    date.year, date.month, date.day, date.hour, date.minute, date.second, os.urandom(10).hex())
                 print(result)
                 filename = fs.save(result + ext, attachment)
                 upload_file_url = fs.url(filename)
