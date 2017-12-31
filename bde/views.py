@@ -3,8 +3,8 @@ from .models import ProjectSize, Contract, LeadGeneratedContract, SalesContract
 from administrator.models import FreelanceAccount, Technology, TechType
 from Authentication.models import User
 from django.core.files.storage import FileSystemStorage
-from django.core import serializers
-
+import os
+from datetime import datetime
 
 def index(request):
     if request.session.has_key('username'):
@@ -30,8 +30,13 @@ def add_application_form_submission(request):
                 print("in if")
                 attachment = request.FILES['attachment']
                 fs = FileSystemStorage()
-
-                filename = fs.save(attachment.name, attachment)
+                ext = os.path.splitext(attachment.name)[1]
+                ext = ext.lower()
+                print(ext)
+                date = datetime.now()
+                result = '%s%s%s%s%s%s_%s' % (date.year, date.month, date.day, datetime.hour, datetime.minute, date.second, os.urandom(10).hex())
+                print(result)
+                filename = fs.save(result + ext, attachment)
                 upload_file_url = fs.url(filename)
             else:
                 print("in else")
