@@ -105,6 +105,11 @@
                         class="fa arrow"></span> </span></a>
 
                 </li>
+                <li><a href="/bde/todays_followup/" class="waves-effect active"><i class="linea-icon linea-basic fa-fw"
+                                                                             data-icon="v"></i> <span class="hide-menu"> Today's Followup <span
+                        class="fa arrow"></span> </span></a>
+
+                </li>
                 <li><a href="javascript:void(0);" class="waves-effect"><i
                         class="linea-icon linea-basic fa-fw text-danger" data-icon="7"></i> <span
                         class="hide-menu text-danger"> Contracts <span class="fa arrow"></span> </span></a>
@@ -248,11 +253,47 @@
                     });
                 }
             });
+
+        $(".appliedJobsMarkAsClosed").change(
+            function () {
+                if ($(this).is(':checked')) {
+                    $.ajax({
+                        url: '/bde/set_job_closed/',
+                        type: 'POST',
+                        data: {
+                            check: $(this).attr('name'), csrfmiddlewaretoken: '{{ csrf_token }}'
+                        },
+                        success: function () {
+                            //$('#wrapper').html(data);
+                            location.reload();
+                            //alert('Marked as lead generated');
+                        }
+                    });
+                }
+            });
+
         $("#freelanceAccount").change(
             function () {
                 //alert($(this).val());
                 $.ajax({
                     url: '/bde/applied_jobs/',
+                    type: 'POST',
+                    data: {
+                        check: $(this).val(), csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: function () {
+                        //$('#wrapper').html(data);
+                        location.reload();
+                    }
+                });
+            });
+
+
+        $("#freelanceAccountFollowUp").change(
+            function () {
+                //alert($(this).val());
+                $.ajax({
+                    url: '/bde/todays_followup/',
                     type: 'POST',
                     data: {
                         check: $(this).val(), csrfmiddlewaretoken: '{{ csrf_token }}'

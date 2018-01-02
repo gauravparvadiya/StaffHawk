@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^applied_jobs/$', views.applied_jobs, name='applied_jobs'),
     url(r'^lead_generated_jobs/$', views.lead_generated_jobs, name='lead_generated_jobs'),
     url(r'^set_lead_generated/$', views.set_lead_generated, name='set_lead_generated'),
+    url(r'^set_job_closed/$', views.set_job_closed, name='set_job_closed'),
     url(r'^remove_lead_generated/$', views.remove_lead_generated, name='remove_lead_generated'),
     url(r'^set_sales_generated/$', views.set_sales_generated, name='set_sales_generated'),
     url(r'^sales_generated_jobs/$', views.sales_generated_jobs, name='sales_generated_jobs'),
@@ -31,4 +32,5 @@ urlpatterns = [
     url(r'^delete_job/$', views.delete_job, name='delete_job'),
     url(r'^edit_contract_info/$', views.edit_contract_info, name='edit_contract_info'),
     url(r'^edit_contract_info_form_submission/$', views.edit_contract_info_form_submission, name='edit_contract_info_form_submission'),
+    url(r'^todays_followup/$', views.todays_followup, name='todays_followup'),
 ]
