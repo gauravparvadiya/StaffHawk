@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from .models import ProjectSize, Contract, LeadGeneratedContract, SalesContract
 from administrator.models import FreelanceAccount, Technology, TechType
 from Authentication.models import User
@@ -6,6 +6,8 @@ from django.core.files.storage import FileSystemStorage
 import os
 from datetime import datetime
 from administrator.models import TodayQuote
+from django.core import serializers
+from django.template.context import RenderContext
 
 
 def index(request):
@@ -14,7 +16,8 @@ def index(request):
 
         bde_user = User.objects.get(user_email=request.session['username'])
         all_counter = Contract.objects.filter(bidder_account_id=bde_user.id).count()
-        lead_counter = Contract.objects.filter(bidder_account_id=bde_user.id, lead_generated='1', invited_by_client='0').count()
+        lead_counter = Contract.objects.filter(bidder_account_id=bde_user.id, lead_generated='1',
+                                               invited_by_client='0').count()
         sales_counter = Contract.objects.filter(bidder_account_id=bde_user.id, lead_generated='1',
                                                 sales_converted='1').count()
         invitation_count = Contract.objects.filter(bidder_account_id=bde_user.id, invited_by_client='1').count()
@@ -96,9 +99,31 @@ def add_application_form_submission(request):
 
 def applied_jobs(request):
     if request.session.has_key('username'):
-        bde_user = User.objects.get(user_email=request.session['username'])
-        jobs_list = Contract.objects.filter(bidder_account_id=bde_user.id)
-        return render(request, "bde/applied_jobs.html", {'jobs_lists': jobs_list})
+        if request.method == 'POST':
+            request.session['bde_selectedFreelancer'] = request.POST['check']
+            return render(request, "bde/applied_jobs.html")
+        else:
+            print('get')
+            if request.session.has_key('bde_selectedFreelancer'):
+                filter_string = request.session['bde_selectedFreelancer']
+                if filter_string == 'all':
+                    bde_user = User.objects.get(user_email=request.session['username'])
+                    jobs_list = Contract.objects.filter(bidder_account_id=bde_user.id).order_by('-created_at')
+                    freelance_account = FreelanceAccount.objects.all();
+                else:
+                    bde_user = User.objects.get(user_email=request.session['username'])
+                    jobs_list = Contract.objects.filter(bidder_account_id=bde_user.id,
+                                                        freelance_account_id=filter_string).order_by('-created_at')
+                    freelance_account = FreelanceAccount.objects.all();
+            else:
+                request.session['bde_selectedFreelancer'] = 'all'
+                filter_string = 'all'
+                bde_user = User.objects.get(user_email=request.session['username'])
+                jobs_list = Contract.objects.filter(bidder_account_id=bde_user.id).order_by('-created_at')
+                freelance_account = FreelanceAccount.objects.all();
+        return render(request, "bde/applied_jobs.html",
+                      {'jobs_lists': jobs_list, 'freelance_accounts': freelance_account,
+                       'selected_option': filter_string})
     else:
         return redirect("/")
 
@@ -124,7 +149,6 @@ def lead_generated_jobs(request):
 
 def set_lead_generated(request):
     if request.session.has_key('username'):
-        print(request.POST['check'])
         bde_user = User.objects.get(user_email=request.session['username'])
         update_contract_tbl = Contract.objects.get(id=request.POST['check'])
         update_contract_tbl.lead_generated = '1'
@@ -134,7 +158,7 @@ def set_lead_generated(request):
         lead_generated.save()
         # print(update_contract_tbl)
         jobs_list = Contract.objects.filter(bidder_account_id=bde_user.id)
-        return render(request, "bde/applied_jobs.html", {'jobs_lists': jobs_list})
+        return render(request, "bde/applied_jobs.html")
     else:
         return redirect("/")
 
@@ -210,3 +234,10 @@ def add_sales_info(request):
                        'techtypes': techtype})
     else:
         return redirect("/")
+
+
+def delete_job(request):
+    print(request.POST['project_id'])
+    contract = Contract.objects.get(id=request.POST['project_id'])
+    contract.delete()
+    return render(request, "bde/applied_jobs.html")

@@ -28,5 +28,5 @@ urlpatterns = [
     url(r'^set_sales_generated/$', views.set_sales_generated, name='set_sales_generated'),
     url(r'^sales_generated_jobs/$', views.sales_generated_jobs, name='sales_generated_jobs'),
     url(r'^add_sales_info/$', views.add_sales_info, name='add_sales_info'),
-
+    url(r'^delete_job/$', views.delete_job, name='delete_job'),
 ]

@@ -15,6 +15,9 @@ class FreelanceAccount(models.Model):
     def __str__(self):
         return self.name_on_account
 
+    def natural_key(self):
+        return self.name_on_account
+
 
 class TechType(models.Model):
     technology_type_name = models.CharField(max_length=200)

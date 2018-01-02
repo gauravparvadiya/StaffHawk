@@ -7,13 +7,51 @@
             <div class="white-box">
                 <h3 class="box-title m-b-0">Applied Jobs</h3>
 
-                <label class="form-inline">Show
-                    <select id="demo-show-entries" class="form-control input-sm">
-                        <option value="5">5</option>
-                        <option value="10" selected>10</option>
-                        <option value="15">15</option>
-                        <option value="20">20</option>
-                    </select> Jobs </label>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+
+                            <div class="col-md-3">
+
+                                <select id="demo-show-entries" class="form-control input-sm">
+                                    <option value="5">5</option>
+                                    <option value="10" selected>10</option>
+                                    <option value="15">15</option>
+                                    <option value="20">20</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--/span-->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Freelance Account</label>
+                            <div class="col-md-6">
+                                <select class="form-control" name="freelance_account" id="freelanceAccount">
+                                    {% if selected_option == 'all' %}
+                                        <option value="all" selected>All</option>
+                                    {% else %}
+                                        <option value="all">All</option>
+                                    {% endif %}
+
+                                    {% for freelance_account in freelance_accounts %}
+                                        {% if freelance_account.id == selected_option|add:"0" %}
+                                            <option value="{{ freelance_account.id }}"
+                                                    selected>{{ freelance_account.name_on_account }}</option>
+                                        {% else %}
+                                            <option value="{{ freelance_account.id }}">{{ freelance_account.name_on_account }}</option>
+                                        {% endif %}
+
+                                    {% endfor %}
+
+                                </select> <span class="help-block"> </span></div>
+                        </div>
+                    </div>
+                    <!--/span-->
+                </div>
+
                 <table id="demo-foo-pagination" class="table m-b-0 toggle-arrow-tiny" data-page-size="10">
                     <thead>
                     <tr>
@@ -21,6 +59,7 @@
                         <th> Freelance Account</th>
                         <th>Status</th>
                         <th>Mark as Lead Generated</th>
+                        <th class="text-nowrap">Action</th>
                         <th data-hide="all"> URL</th>
                         <th data-hide="all"> Size</th>
                         <th data-hide="all"> Type</th>
@@ -48,6 +87,11 @@
                                            data-on-text="Yes" data-off-text="No" id="mark_as_lead"
                                            name="{{ job_list.id }}" class="appliedJobs"></td>
                             {% endif %}
+                            <td class="text-nowrap">
+                                
+                                <button data-toggle="tooltip" data-original-title="Delete" style="border: none; background: none" value="{{ job_list.id }}" class="bdeAppliedJobsDelete"> <i
+                                        class="fa fa-close text-danger" ></i> </button>
+                            </td>
                             <td><a href="{{ job_list.project_url }}" target="_blank">{{ job_list.project_url }}</a></td>
                             <td>{{ job_list.project_size }}</td>
                             {% if job_list.contract_type == '1' %}

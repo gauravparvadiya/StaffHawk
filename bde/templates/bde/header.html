@@ -178,32 +178,13 @@
         type="text/javascript"></script>
 <!-- Sweet-Alert  -->
 <script src="{% static 'plugins/bower_components/sweetalert/sweetalert.min.js' %}"></script>
-<script src="{% static 'plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js' %}"></script>
+
 <!--Style Switcher -->
 
 <script type="text/javascript"
         src="{% static 'plugins/bower_components/multiselect/js/jquery.multi-select.js' %}"></script>
+<script src="{% static 'plugins/bower_components/styleswitcher/jQuery.style.switcher.js' %}"></script>
 <script type="text/javascript">
-
-    $(".bt-switch input[type='checkbox'], .bt-switch input[type='radio']").bootstrapSwitch();
-        var radioswitch = function () {
-            var bt = function () {
-                $(".radio-switch").on("switch-change", function () {
-                    $(".radio-switch").bootstrapSwitch("toggleRadioState")
-                }),
-                    $(".radio-switch").on("switch-change", function () {
-                        $(".radio-switch").bootstrapSwitch("toggleRadioStateAllowUncheck")
-                    }),
-                    $(".radio-switch").on("switch-change", function () {
-                        $(".radio-switch").bootstrapSwitch("toggleRadioStateAllowUncheck", !1)
-                    })
-            };
-            return {
-                init: function () {
-                    bt()
-                }
-            }
-        }();
 
     $(document).ready(function () {
         // For select 2
@@ -248,7 +229,8 @@
                         },
                         success: function () {
                             //$('#wrapper').html(data);
-                            alert('Marked as lead generated');
+                            location.reload();
+                            //alert('Marked as lead generated');
                         }
                     });
                 }
@@ -260,10 +242,26 @@
                             check: $(this).attr('name'), csrfmiddlewaretoken: '{{ csrf_token }}'
                         },
                         success: function () {
-                            alert('Removed from lead generated');
+                            location.reload();
+                            //alert('Removed from lead generated');
                         }
                     });
                 }
+            });
+        $("#freelanceAccount").change(
+            function () {
+                //alert($(this).val());
+                $.ajax({
+                    url: '/bde/applied_jobs/',
+                    type: 'POST',
+                    data: {
+                        check: $(this).val(), csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: function () {
+                        //$('#wrapper').html(data);
+                        location.reload();
+                    }
+                });
             });
 
         $(".leadJobs").change(
@@ -273,10 +271,37 @@
                 }
             });
 
-        radioswitch.init();
+        //Warning Message
+        $('.bdeAppliedJobsDelete').click(function () {
+            var proj_id = $(this).val();
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this Contract!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it!",
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    url: '/bde/delete_job/',
+                    type: 'POST',
+                    data: {
+                        project_id: proj_id, csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: function () {
+                        swal("Deleted!", "Your imaginary file has been deleted.", "success");
+                        location.reload();
+                    }
+                });
+
+            });
+        });
+
+
     });
 </script>
-<script src="{% static 'plugins/bower_components/styleswitcher/jQuery.style.switcher.js' %}"></script>
+
 </body>
 
 </html>
