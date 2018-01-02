@@ -26,6 +26,8 @@ class Contract(models.Model):
     bidder_account = models.ForeignKey('Authentication.User', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    contract_status = models.CharField(max_length=3,default='0')  # 0.Active 1.Rejected
+    today_follow_up = models.CharField(max_length=3, default='0')
 
     def __str__(self):
         return self.project_title
@@ -35,6 +37,7 @@ class LeadGeneratedContract(models.Model):
     lead_contract = models.ForeignKey(Contract, on_delete=models.CASCADE)
     bidder_account = models.ForeignKey('Authentication.User', on_delete=models.CASCADE)
     follow_up_time = models.DateTimeField(default=datetime.now() + timedelta(days=2))
+    next_follow_up_time = models.DateTimeField(default=datetime.now() + timedelta(days=2))
     follow_up_counter = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

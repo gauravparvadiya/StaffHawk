@@ -4,7 +4,7 @@ from administrator.models import FreelanceAccount, Technology, TechType
 from Authentication.models import User
 from django.core.files.storage import FileSystemStorage
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 from administrator.models import TodayQuote
 from django.core import serializers
 from django.template.context import RenderContext
@@ -22,7 +22,6 @@ def index(request):
                                                 sales_converted='1').count()
         invitation_count = Contract.objects.filter(bidder_account_id=bde_user.id, invited_by_client='1').count()
         print(today_quote)
-        # record = reversed(today_quote)[0]
         return render(request, "bde/dashboard.html",
                       {'today_quote': today_quote, 'all_count': all_counter, 'lead_count': lead_counter,
                        'sales_count': sales_counter, 'invite_count': invitation_count})
@@ -108,18 +107,21 @@ def applied_jobs(request):
                 filter_string = request.session['bde_selectedFreelancer']
                 if filter_string == 'all':
                     bde_user = User.objects.get(user_email=request.session['username'])
-                    jobs_list = Contract.objects.filter(bidder_account_id=bde_user.id).order_by('-created_at')
+                    jobs_list = Contract.objects.filter(bidder_account_id=bde_user.id, contract_status='0').order_by(
+                        '-created_at')
                     freelance_account = FreelanceAccount.objects.all();
                 else:
                     bde_user = User.objects.get(user_email=request.session['username'])
                     jobs_list = Contract.objects.filter(bidder_account_id=bde_user.id,
-                                                        freelance_account_id=filter_string).order_by('-created_at')
+                                                        freelance_account_id=filter_string,
+                                                        contract_status='0').order_by('-created_at')
                     freelance_account = FreelanceAccount.objects.all();
             else:
                 request.session['bde_selectedFreelancer'] = 'all'
                 filter_string = 'all'
                 bde_user = User.objects.get(user_email=request.session['username'])
-                jobs_list = Contract.objects.filter(bidder_account_id=bde_user.id).order_by('-created_at')
+                jobs_list = Contract.objects.filter(bidder_account_id=bde_user.id, contract_status='0').order_by(
+                    '-created_at')
                 freelance_account = FreelanceAccount.objects.all();
         return render(request, "bde/applied_jobs.html",
                       {'jobs_lists': jobs_list, 'freelance_accounts': freelance_account,
@@ -132,7 +134,8 @@ def lead_generated_jobs(request):
     if request.session.has_key('username'):
         bde_user = User.objects.get(user_email=request.session['username'])
         job_list = Contract.objects.filter(lead_generated='1', sales_converted='0', bidder_account_id=bde_user.id,
-                                           leadgeneratedcontract__bidder_account_id=bde_user.id).values(
+                                           leadgeneratedcontract__bidder_account_id=bde_user.id,
+                                           contract_status='0').values(
             'project_size__size',
             'project_url',
             'project_title',
@@ -158,6 +161,16 @@ def set_lead_generated(request):
         lead_generated.save()
         # print(update_contract_tbl)
         jobs_list = Contract.objects.filter(bidder_account_id=bde_user.id)
+        return render(request, "bde/applied_jobs.html")
+    else:
+        return redirect("/")
+
+
+def set_job_closed(request):
+    if request.session.has_key('username'):
+        update_contract_tbl = Contract.objects.get(id=request.POST['check'])
+        update_contract_tbl.contract_status = '1'
+        update_contract_tbl.save()
         return render(request, "bde/applied_jobs.html")
     else:
         return redirect("/")
@@ -211,14 +224,15 @@ def sales_generated_jobs(request):
         bde_user = User.objects.get(user_email=request.session['username'])
         # sales_info = SalesContract.objects.all()
         jobs_list = Contract.objects.filter(bidder_account_id=bde_user.id, lead_generated='1', sales_converted='1',
-                                            salescontract__sales_bde_id=bde_user.id).values('project_size__size',
-                                                                                            'project_title',
-                                                                                            'project_desc',
-                                                                                            'project_url',
-                                                                                            'freelance_account__name_on_account',
-                                                                                            'salescontract__contract_payment_type',
-                                                                                            'salescontract__contract_total_amount',
-                                                                                            'client_location')
+                                            salescontract__sales_bde_id=bde_user.id, contract_status='0').values(
+            'project_size__size',
+            'project_title',
+            'project_desc',
+            'project_url',
+            'freelance_account__name_on_account',
+            'salescontract__contract_payment_type',
+            'salescontract__contract_total_amount',
+            'client_location')
         return render(request, "bde/sales_generated_jobs.html", {'jobs_lists': jobs_list})
     else:
         return redirect("/")
@@ -307,15 +321,65 @@ def edit_contract_info_form_submission(request):
         filter_string = request.session['bde_selectedFreelancer']
         if filter_string == 'all':
             bde_user = User.objects.get(user_email=request.session['username'])
-            jobs_list = Contract.objects.filter(bidder_account_id=bde_user.id).order_by('-created_at')
+            jobs_list = Contract.objects.filter(bidder_account_id=bde_user.id, contract_status='0').order_by(
+                '-created_at')
             freelance_account = FreelanceAccount.objects.all();
         else:
             bde_user = User.objects.get(user_email=request.session['username'])
 
             jobs_list = Contract.objects.filter(bidder_account_id=bde_user.id,
-                                                freelance_account_id=filter_string).order_by('-created_at')
+                                                freelance_account_id=filter_string, contract_status='0').order_by(
+                '-created_at')
             freelance_account = FreelanceAccount.objects.all();
         return redirect("/bde/applied_jobs",
+                        {'jobs_lists': jobs_list, 'freelance_accounts': freelance_account,
+                         'selected_option': filter_string})
+    else:
+        return redirect("/")
+
+
+def todays_followup(request):
+    if request.session.has_key('username'):
+        if request.method == 'POST':
+            request.session['bde_selectedFreelancerTodaysFollowup'] = request.POST['check']
+            return render(request, "bde/todays_followup.html")
+        else:
+            print('get')
+            active_contracts = Contract.objects.filter(lead_generated='1', sales_converted='0', contract_status='0')
+            for active_contract in active_contracts:
+                follow_up_contract = LeadGeneratedContract.objects.get(lead_contract_id=active_contract.id)
+                next_follow_up_date = follow_up_contract.next_follow_up_time
+                today_date = datetime.now()
+                if today_date.day == next_follow_up_date.day:
+                    active_contract.today_follow_up = '1'
+                    follow_up_contract.follow_up_time = datetime.now()
+                    follow_up_contract.next_follow_up_time = datetime.now() + timedelta(days=2)
+                    active_contract.save()
+                    follow_up_contract.save()
+                else:
+                    active_contract.today_follow_up = '0'
+
+            if request.session.has_key('bde_selectedFreelancerTodaysFollowup'):
+                filter_string = request.session['bde_selectedFreelancerTodaysFollowup']
+                if filter_string == 'all':
+                    bde_user = User.objects.get(user_email=request.session['username'])
+                    jobs_list = Contract.objects.filter(bidder_account_id=bde_user.id, contract_status='0',
+                                                        today_follow_up='1').order_by('-created_at')
+                    freelance_account = FreelanceAccount.objects.all();
+                else:
+                    bde_user = User.objects.get(user_email=request.session['username'])
+                    jobs_list = Contract.objects.filter(bidder_account_id=bde_user.id,
+                                                        freelance_account_id=filter_string, contract_status='0',
+                                                        today_follow_up='1').order_by('-created_at')
+                    freelance_account = FreelanceAccount.objects.all();
+            else:
+                request.session['bde_selectedFreelancerTodaysFollowup'] = 'all'
+                filter_string = 'all'
+                bde_user = User.objects.get(user_email=request.session['username'])
+                jobs_list = Contract.objects.filter(bidder_account_id=bde_user.id, contract_status='0',
+                                                    today_follow_up='1').order_by('-created_at')
+                freelance_account = FreelanceAccount.objects.all();
+        return render(request, "bde/todays_followup.html",
                       {'jobs_lists': jobs_list, 'freelance_accounts': freelance_account,
                        'selected_option': filter_string})
     else:
