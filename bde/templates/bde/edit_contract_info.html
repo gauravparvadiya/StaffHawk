@@ -1,0 +1,212 @@
+{% extends "bde/header.html" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-info">
+                <div class="panel-wrapper collapse in" aria-expanded="true">
+                    <div class="panel-body">
+                        <form action="/bde/edit_contract_info_form_submission/" class="form-horizontal" method="post"
+                              enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-body">
+                                <input type="hidden" name="contract_id" id="contract_id" value="{{ contract_info.id }}">
+                                <h3 class="box-title">Application Info</h3>
+                                <hr class="m-t-0 m-b-40">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Project Title</label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control"
+                                                       placeholder="Looking for developer" name="project_title"
+                                                       value="{{ contract_info.project_title }}"><span
+                                                    class="help-block"> Add project title same as job posting. </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Project URL</label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control"
+                                                       placeholder="http://www.upwork.com/" name="project_url"
+                                                       value="{{ contract_info.project_url }}"> <span
+                                                    class="help-block"> </span></div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                </div>
+                                <!--/row-->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Project Size</label>
+                                            <div class="col-md-9">
+                                                <select class="form-control" name="project_size">
+                                                    {% for project_size in project_sizes %}
+                                                        {% if contract_info.project_size_id == project_size.id %}
+                                                            <option selected
+                                                                    value="{{ project_size.id }}">{{ project_size.size }}</option>
+                                                        {% else %}
+                                                            <option value="{{ project_size.id }}">{{ project_size.size }}</option>
+                                                        {% endif %}
+
+                                                    {% endfor %}
+
+                                                </select> <span class="help-block"> </span></div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Freelance Account</label>
+                                            <div class="col-md-9">
+                                                <select class="form-control" name="freelance_account">
+                                                    {% for freelance_account in freelance_accounts %}
+                                                        {% if contract_info.freelance_account_id == freelance_account.id %}
+                                                            <option selected
+                                                                    value="{{ freelance_account.id }}">{{ freelance_account.name_on_account }}</option>
+                                                        {% else %}
+                                                            <option value="{{ freelance_account.id }}">{{ freelance_account.name_on_account }}</option>
+                                                        {% endif %}
+
+                                                    {% endfor %}
+
+                                                </select> <span class="help-block"> </span></div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                </div>
+                                <!--/row-->
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Invited by Client</label>
+                                            <div class="col-md-9">
+                                                <div class="radio-list">
+                                                    {% if contract_info.invited_by_client == '1' %}
+                                                        <label class="radio-inline">
+                                                            <input checked type="radio" name="invited_by_client"
+                                                                   value="1"> Yes
+                                                        </label>
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="invited_by_client" value="0"
+                                                            > No </label>
+                                                    {% else %}
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="invited_by_client" value="1"> Yes
+                                                        </label>
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="invited_by_client" value="0"
+                                                                   checked> No </label>
+                                                    {% endif %}
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Payment Method</label>
+                                            <div class="col-md-9">
+                                                <div class="radio-list">
+                                                    {% if contract_info.contract_type == '1' %}
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="payment_method" value="1" checked>
+                                                            Hourly
+                                                        </label>
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="payment_method" value="2"> Fixed
+                                                            Price
+                                                        </label>
+                                                    {% else %}
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="payment_method" value="1">
+                                                            Hourly
+                                                        </label>
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="payment_method" value="2" checked>
+                                                            Fixed
+                                                            Price
+                                                        </label>
+                                                    {% endif %}
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Project Amount</label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control"
+                                                       placeholder="1000" name="project_amount"
+                                                       value="{{ contract_info.contract_price }}"><span
+                                                    class="help-block"> Hour rate in case of Hourly contract otherwise Fixed price. </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Client Location</label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control"
+                                                       placeholder="Montral, QC, Canada" name="client_location"
+                                                       value="{{ contract_info.client_location }}"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Text area</label>
+                                            <div class="col-md-9">
+                                                <textarea class="form-control" rows="15"
+                                                          name="project_description">{{ contract_info.project_desc }}</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-sm-6 ol-md-6 col-xs-12 ">
+                                        <div class="form-group white-box">
+                                            <label for="input-file-now"
+                                                   class="control-label col-md-3">Attachment</label>
+                                            <input type="file" id="input-file-now" class="col-md-9" name="attachment"/>
+                                        </div>
+                                    </div>
+
+                                    <!--/span-->
+                                </div>
+
+
+                            </div>
+                            <div class="form-actions">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-offset-3 col-md-9">
+                                                <button type="submit" class="btn btn-success">Submit</button>
+                                                <button type="button" class="btn btn-default">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6"></div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

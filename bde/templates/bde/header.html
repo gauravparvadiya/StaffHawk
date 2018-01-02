@@ -271,6 +271,11 @@
                 }
             });
 
+        $(".bdeAppliedJobsEdit").click(
+            function () {
+                    window.location.replace("/bde/edit_contract_info/?id=" + $(this).val());
+            });
+
         //Warning Message
         $('.bdeAppliedJobsDelete').click(function () {
             var proj_id = $(this).val();
