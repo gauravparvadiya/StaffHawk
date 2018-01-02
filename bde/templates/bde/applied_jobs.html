@@ -88,9 +88,13 @@
                                            name="{{ job_list.id }}" class="appliedJobs"></td>
                             {% endif %}
                             <td class="text-nowrap">
-                                
-                                <button data-toggle="tooltip" data-original-title="Delete" style="border: none; background: none" value="{{ job_list.id }}" class="bdeAppliedJobsDelete"> <i
-                                        class="fa fa-close text-danger" ></i> </button>
+                                <button data-toggle="tooltip" data-original-title="Edit" style="border: none; background: none" value="{{ job_list.id }}"
+                                        class="bdeAppliedJobsEdit"> <i
+                                        class="fa fa-pencil text-inverse m-r-10"></i> </button>
+                                <button data-toggle="tooltip" data-original-title="Delete"
+                                        style="border: none; background: none" value="{{ job_list.id }}"
+                                        class="bdeAppliedJobsDelete"><i
+                                        class="fa fa-close text-danger"></i></button>
                             </td>
                             <td><a href="{{ job_list.project_url }}" target="_blank">{{ job_list.project_url }}</a></td>
                             <td>{{ job_list.project_size }}</td>

@@ -29,4 +29,6 @@ urlpatterns = [
     url(r'^sales_generated_jobs/$', views.sales_generated_jobs, name='sales_generated_jobs'),
     url(r'^add_sales_info/$', views.add_sales_info, name='add_sales_info'),
     url(r'^delete_job/$', views.delete_job, name='delete_job'),
+    url(r'^edit_contract_info/$', views.edit_contract_info, name='edit_contract_info'),
+    url(r'^edit_contract_info_form_submission/$', views.edit_contract_info_form_submission, name='edit_contract_info_form_submission'),
 ]
